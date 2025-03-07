@@ -1,0 +1,12 @@
+name: Locked
+version: 1.0.0
+main: fr.ftnl.locked.Locked
+description: Bloqué dans votre chunk seul vos exploits vous libéreront
+author: ocelus
+website: https://ftnl.fr
+api-version: '1.21.4'
+
+commands:
+  reset:
+    description: Reset.
+    usage: /createworld
