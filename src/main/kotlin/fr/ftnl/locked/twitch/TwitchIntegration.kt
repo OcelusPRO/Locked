@@ -4,11 +4,12 @@ import com.github.philippheuer.credentialmanager.domain.OAuth2Credential
 import com.github.philippheuer.events4j.simple.SimpleEventHandler
 import com.github.twitch4j.TwitchClient
 import com.github.twitch4j.TwitchClientBuilder
+import com.github.twitch4j.chat.events.channel.FollowEvent
 import fr.ftnl.locked.Locked
-import fr.ftnl.locked.twitch.listeners.CheerEvent
-import fr.ftnl.locked.twitch.listeners.FollowEvent
-import fr.ftnl.locked.twitch.listeners.RaidEvent
-import fr.ftnl.locked.twitch.listeners.SubscriptionEvent
+import fr.ftnl.locked.twitch.listeners.AppCheerEvent
+import fr.ftnl.locked.twitch.listeners.AppFollowEvent
+import fr.ftnl.locked.twitch.listeners.AppRaidEvent
+import fr.ftnl.locked.twitch.listeners.AppSubscriptionEvent
 
 
 class TwitchIntegration(val locked: Locked) {
@@ -27,22 +28,28 @@ class TwitchIntegration(val locked: Locked) {
         .withEnableChat(true) // Pour les messages de chat
         .withChatAccount(credential).withDefaultAuthToken(credential)
         
-        //.withEnableEventSocket(true) // Pour les événements
         .build()
     
     init {
         val channel = locked.config.twitchConfig.credentials.channel
+        val userID = locked.config.twitchConfig.credentials.userId
+        
         if (twitchClient.chat.isChannelJoined(channel).not()) {
             twitchClient.chat.joinChannel(channel) //twitchClient.clientHelper.enableStreamEventListener(channel)
             twitchClient.clientHelper.enableFollowEventListener(channel)
             twitchClient.clientHelper.enableClipEventListener(channel) // quand un clip est fait faire une action sur le jeu
         }
+   
         
         twitchClient.eventManager.getEventHandler(SimpleEventHandler::class.java).registerListener(
                 listOf(
-                    CheerEvent(locked), FollowEvent(locked), RaidEvent(locked), SubscriptionEvent(locked)
+                    AppCheerEvent(locked),
+                    AppFollowEvent(locked),
+                    AppRaidEvent(locked),
+                    AppSubscriptionEvent(locked)
                 )
             )
+        
         
         twitchClient.chat.sendMessage(channel, "Plugin minecraft LOCKED chargé !")
     }

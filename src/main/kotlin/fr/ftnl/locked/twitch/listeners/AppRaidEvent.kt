@@ -8,7 +8,7 @@ import org.bukkit.GameMode
 import org.bukkit.entity.EntityType
 import kotlin.math.min
 
-class RaidEvent(val locked: Locked) {
+class AppRaidEvent(val locked: Locked) {
     
     @EventSubscriber
     fun onRaid(event: RaidEvent) {

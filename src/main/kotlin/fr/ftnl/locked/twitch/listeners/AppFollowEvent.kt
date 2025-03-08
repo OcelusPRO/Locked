@@ -4,7 +4,8 @@ import com.github.philippheuer.events4j.simple.domain.EventSubscriber
 import com.github.twitch4j.chat.events.channel.FollowEvent
 import fr.ftnl.locked.Locked
 
-class FollowEvent(val locked: Locked) {
+
+class AppFollowEvent(val locked: Locked) {
     
     val followList = mutableListOf<String>()
     
@@ -15,8 +16,9 @@ class FollowEvent(val locked: Locked) {
         if (event.user.id in followList) return
         followList.add(event.user.id)
         locked.borderSizeManager.increaseBorder(
-                locked.config.twitchConfig.followBorderConfig.followBorderChanger, locked.pData.currentWorldName
-            )
+            locked.config.twitchConfig.followBorderConfig.followBorderChanger, locked.pData.currentWorldName
+        )
     }
+    
     
 }

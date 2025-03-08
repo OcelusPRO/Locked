@@ -9,7 +9,7 @@ import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
-class SubscriptionEvent(val locked: Locked) {
+class AppSubscriptionEvent(val locked: Locked) {
     
     @EventSubscriber
     fun onSub(event: SubscriptionEvent) = subHandler(event.user.name)

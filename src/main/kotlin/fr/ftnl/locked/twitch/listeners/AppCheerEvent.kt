@@ -8,7 +8,7 @@ import org.bukkit.GameMode
 import org.bukkit.Sound
 import kotlin.math.abs
 
-class CheerEvent(val locked: Locked) {
+class AppCheerEvent(val locked: Locked) {
     
     @EventSubscriber
     fun onCheer(event: CheerEvent) {
