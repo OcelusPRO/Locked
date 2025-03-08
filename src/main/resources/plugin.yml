@@ -1,5 +1,5 @@
 name: Locked
-version: 1.0.0
+version: 1.1.0
 main: fr.ftnl.locked.Locked
 description: Bloqué dans votre chunk seul vos exploits vous libéreront
 author: ocelus
@@ -9,4 +9,7 @@ api-version: '1.21.4'
 commands:
   reset:
     description: Reset.
-    usage: /createworld
+    usage: /<command>
+  reload-config:
+    description: Recharger la configuration du plugin Locked.
+    usage: /<command>

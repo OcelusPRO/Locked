@@ -7,6 +7,7 @@ import fr.ftnl.locked.managers.BorderSizeManager
 import fr.ftnl.locked.managers.ScoreboardManager
 import fr.ftnl.locked.managers.ServerCommandManager
 import fr.ftnl.locked.server.commands.NewWorldCommand
+import fr.ftnl.locked.server.commands.ReloadConfiguration
 import fr.ftnl.locked.server.listeners.PlayerAdvancementDown
 import fr.ftnl.locked.server.listeners.PlayerDeath
 import fr.ftnl.locked.server.listeners.PlayerJoin
@@ -17,7 +18,7 @@ import java.io.File
 
 
 class Locked : JavaPlugin() {
-    val config: Configuration = Configuration.load(File(dataFolder, "config.json"))
+    var config: Configuration = Configuration.load(File(dataFolder, "config.json"))
     val pData: PluginData = PluginData.load(File(dataFolder, "data.json"))
     val borderSizeManager: BorderSizeManager = BorderSizeManager(this)
     val commandSender = ServerCommandManager(this)
@@ -51,6 +52,7 @@ class Locked : JavaPlugin() {
     
     fun registerCommands() {
         this.getCommand("reset")?.setExecutor(NewWorldCommand(this))
+        this.getCommand("reload-config")?.setExecutor(ReloadConfiguration(this))
     }
     
 }
