@@ -2,12 +2,15 @@ package fr.ftnl.locked.twitch.listeners
 
 import com.github.philippheuer.events4j.simple.domain.EventSubscriber
 import com.github.twitch4j.chat.events.channel.FollowEvent
+import com.github.twitch4j.events.ChannelFollowCountUpdateEvent
 import fr.ftnl.locked.Locked
+import java.util.concurrent.atomic.AtomicInteger
 
 
 class AppFollowEvent(val locked: Locked) {
     
     val followList = mutableListOf<String>()
+    val followCounter = AtomicInteger()
     
     @EventSubscriber
     fun onFollow(event: FollowEvent) {
@@ -19,6 +22,19 @@ class AppFollowEvent(val locked: Locked) {
             locked.config.twitchConfig.followBorderConfig.followBorderChanger, locked.pData.currentWorldName
         )
     }
+    
+    @EventSubscriber
+    fun onFollowCountChange(event: ChannelFollowCountUpdateEvent) {
+        println("Follow count changed: " + event.followCount)
+        if (event.followCount > followCounter.get()) {
+            locked.borderSizeManager.increaseBorder(
+                locked.config.twitchConfig.followBorderConfig.followBorderChanger, locked.pData.currentWorldName
+            )
+        }
+        followCounter.set(event.followCount)
+    }
+    
+    
     
     
 }
