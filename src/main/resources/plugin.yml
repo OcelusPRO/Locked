@@ -10,6 +10,8 @@ commands:
   reset:
     description: Reset.
     usage: /<command>
-  reload-config:
-    description: Recharger la configuration du plugin Locked.
-    usage: /<command>
+    permission: "locked.permission.reset"
+  change-border:
+    description: Augmente la bordure de la taille indiqué
+    usage: /<command> <size>
+    permission: "locked.permission.change-border"

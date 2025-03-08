@@ -6,8 +6,8 @@ import fr.ftnl.locked.managers.AdvancementManager
 import fr.ftnl.locked.managers.BorderSizeManager
 import fr.ftnl.locked.managers.ScoreboardManager
 import fr.ftnl.locked.managers.ServerCommandManager
+import fr.ftnl.locked.server.commands.ChangeBorder
 import fr.ftnl.locked.server.commands.NewWorldCommand
-import fr.ftnl.locked.server.commands.ReloadConfiguration
 import fr.ftnl.locked.server.listeners.PlayerAdvancementDown
 import fr.ftnl.locked.server.listeners.PlayerDeath
 import fr.ftnl.locked.server.listeners.PlayerJoin
@@ -52,7 +52,7 @@ class Locked : JavaPlugin() {
     
     fun registerCommands() {
         this.getCommand("reset")?.setExecutor(NewWorldCommand(this))
-        this.getCommand("reload-config")?.setExecutor(ReloadConfiguration(this))
+        this.getCommand("change-border")?.setExecutor(ChangeBorder(this))
     }
     
 }
