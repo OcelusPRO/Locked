@@ -4,7 +4,6 @@ import com.github.philippheuer.credentialmanager.domain.OAuth2Credential
 import com.github.philippheuer.events4j.simple.SimpleEventHandler
 import com.github.twitch4j.TwitchClient
 import com.github.twitch4j.TwitchClientBuilder
-import com.github.twitch4j.chat.events.channel.FollowEvent
 import fr.ftnl.locked.Locked
 import fr.ftnl.locked.twitch.listeners.AppCheerEvent
 import fr.ftnl.locked.twitch.listeners.AppFollowEvent
@@ -14,7 +13,7 @@ import fr.ftnl.locked.twitch.listeners.AppSubscriptionEvent
 
 class TwitchIntegration(val locked: Locked) {
     
-    var credential: OAuth2Credential? = if (locked.config.twitchConfig.credentials.accessToken.isNullOrBlank()) null
+    var credential: OAuth2Credential? = if (locked.config.twitchConfig.credentials.accessToken.isBlank()) null
     else OAuth2Credential("twitch", locked.config.twitchConfig.credentials.accessToken)
     
     
