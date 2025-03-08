@@ -13,11 +13,16 @@ import java.io.File
 import kotlin.math.roundToInt
 
 
-class ReloadConfiguration(val main: Locked) : CommandExecutor {
+class ChangeBorder(val main: Locked) : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        main.config = Configuration.load(File(main.dataFolder, "config.json"))
-        sender.sendMessage("La configuration du plugin a été rechargée.")
-        sender.sendMessage("§4Attention, certains paramètres peuvent ne pas être pris en compte sans reload/restart le serveur.")
+        if (args.isEmpty()) {
+            sender.sendMessage("§4Usage: /changeborder <size>")
+            return false
+        }
+        
+        val size = args[0].toDoubleOrNull() ?: return false.also { sender.sendMessage("§4Usage: /changeborder <size>") }
+        
+        main.borderSizeManager.increaseBorder(size, main.pData.currentWorldName)
         return true
     }
 }
