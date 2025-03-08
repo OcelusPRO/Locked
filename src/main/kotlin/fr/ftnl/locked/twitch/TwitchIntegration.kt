@@ -32,7 +32,6 @@ class TwitchIntegration(val locked: Locked) {
     
     init {
         val channel = locked.config.twitchConfig.credentials.channel
-        val userID = locked.config.twitchConfig.credentials.userId
         
         if (twitchClient.chat.isChannelJoined(channel).not()) {
             twitchClient.chat.joinChannel(channel) //twitchClient.clientHelper.enableStreamEventListener(channel)
