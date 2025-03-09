@@ -3,10 +3,14 @@ package fr.ftnl.locked.config
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import fr.ftnl.locked.config.dataElements.BorderData
+import fr.ftnl.locked.config.dataElements.CustomAdvancements
 import java.io.File
 
 data class PluginData(
-    val borderConfig: BorderData = BorderData(), var firstConnect: Boolean = false, var currentWorldName: String = ""
+    val borderConfig: BorderData = BorderData(),
+    var firstConnect: Boolean = false,
+    var currentWorldName: String = "",
+    val customAdvancements: CustomAdvancements = CustomAdvancements()
 ) {
     companion object {
         val gson: Gson = GsonBuilder().setPrettyPrinting().create()

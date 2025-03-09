@@ -8,6 +8,9 @@ import fr.ftnl.locked.managers.ScoreboardManager
 import fr.ftnl.locked.managers.ServerCommandManager
 import fr.ftnl.locked.server.commands.ChangeBorder
 import fr.ftnl.locked.server.commands.NewWorldCommand
+import fr.ftnl.locked.server.listeners.EntityDamage
+import fr.ftnl.locked.server.listeners.EntityDeath
+import fr.ftnl.locked.server.listeners.EntitySpawn
 import fr.ftnl.locked.server.listeners.PlayerAdvancementDown
 import fr.ftnl.locked.server.listeners.PlayerDeath
 import fr.ftnl.locked.server.listeners.PlayerJoin
@@ -48,6 +51,9 @@ class Locked : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(PlayerAdvancementDown(this), this)
         Bukkit.getPluginManager().registerEvents(PlayerDeath(this), this)
         Bukkit.getPluginManager().registerEvents(PlayerJoin(this), this)
+        Bukkit.getPluginManager().registerEvents(EntitySpawn(this), this)
+        Bukkit.getPluginManager().registerEvents(EntityDeath(this), this)
+        Bukkit.getPluginManager().registerEvents(EntityDamage(this), this)
     }
     
     fun registerCommands() {
