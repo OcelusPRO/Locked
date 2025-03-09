@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import fr.ftnl.locked.config.configElements.BorderConfig
 import fr.ftnl.locked.config.configElements.UiConfig
+import fr.ftnl.locked.config.configElements.easterEggs.EasterEgg
 import fr.ftnl.locked.config.configElements.twitch.TwitchConfig
 import java.io.File
 
@@ -15,6 +16,7 @@ data class Configuration(
     val twitchConfig: TwitchConfig = TwitchConfig(),
     val soundDelayInSeconds: Long = 0L,
     val uiConfig: UiConfig = UiConfig(),
+    val easterEggs: EasterEgg = EasterEgg(),
 ) {
     companion object {
         val gson: Gson = GsonBuilder().setPrettyPrinting().create()
