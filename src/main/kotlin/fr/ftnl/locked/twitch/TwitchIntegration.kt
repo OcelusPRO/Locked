@@ -4,6 +4,8 @@ import com.github.philippheuer.credentialmanager.domain.OAuth2Credential
 import com.github.philippheuer.events4j.simple.SimpleEventHandler
 import com.github.twitch4j.TwitchClient
 import com.github.twitch4j.TwitchClientBuilder
+import com.github.twitch4j.chat.events.channel.FollowEvent
+import com.github.twitch4j.events.ChannelFollowCountUpdateEvent
 import fr.ftnl.locked.Locked
 import fr.ftnl.locked.twitch.listeners.AppCheerEvent
 import fr.ftnl.locked.twitch.listeners.AppFollowEvent
@@ -48,7 +50,14 @@ class TwitchIntegration(val locked: Locked) {
                 )
             )
         
+        twitchClient.eventManager.onEvent(FollowEvent::class.java) { e ->
+            println("Follow event fallback : " + e.user.name + " followed the channel " + e.channel.name)
+        }
+        twitchClient.eventManager.onEvent(ChannelFollowCountUpdateEvent::class.java) { e ->
+            println("FollowCount event fallback : " + e.followCount + " " + e.channel.name)
+        }
         
+    
         twitchClient.chat.sendMessage(channel, "Plugin minecraft LOCKED chargé !")
     }
 }
