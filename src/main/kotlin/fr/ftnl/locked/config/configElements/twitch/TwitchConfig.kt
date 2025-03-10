@@ -4,6 +4,7 @@ import fr.ftnl.locked.config.configElements.twitch.bits.BitsBorderConfig
 import fr.ftnl.locked.config.configElements.twitch.bits.ItemSound
 import fr.ftnl.locked.config.configElements.twitch.bits.WeatherConfig
 import fr.ftnl.locked.config.configElements.twitch.follow.FollowBorderConfig
+import fr.ftnl.locked.config.configElements.twitch.hype.HypeTrainConfig
 import fr.ftnl.locked.config.configElements.twitch.raid.ChickenRaid
 import fr.ftnl.locked.config.configElements.twitch.sub.Cakes
 import fr.ftnl.locked.config.configElements.twitch.sub.Poops
@@ -19,4 +20,5 @@ data class TwitchConfig(
     val subBorderConfig: SubBorderConfig = SubBorderConfig(),
     val bitsBorderConfig: BitsBorderConfig = BitsBorderConfig(),
     val weatherConfig: WeatherConfig = WeatherConfig(),
+    val hypeTrainConfig: HypeTrainConfig = HypeTrainConfig(),
 )

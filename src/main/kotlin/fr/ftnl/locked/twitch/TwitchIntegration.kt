@@ -8,6 +8,7 @@ import com.github.twitch4j.eventsub.subscriptions.SubscriptionTypes
 import fr.ftnl.locked.Locked
 import fr.ftnl.locked.twitch.listeners.AppCheerEvent
 import fr.ftnl.locked.twitch.listeners.AppFollowEvent
+import fr.ftnl.locked.twitch.listeners.AppHypeTrainEvent
 import fr.ftnl.locked.twitch.listeners.AppRaidEvent
 import fr.ftnl.locked.twitch.listeners.AppSubscriptionEvent
 
@@ -31,7 +32,9 @@ class TwitchIntegration(val locked: Locked) {
     
     init {
         val channel = locked.config.twitchConfig.credentials.channel
-        val userId = "80857446"
+        val user = twitchClient.helix.getUsers(null, null, listOf(channel)).execute().users.find { it.login == channel }
+            ?: throw IllegalStateException("User not found")
+        val userId = user.id
         
         if (twitchClient.chat.isChannelJoined(channel).not()) {
             twitchClient.chat.joinChannel(channel)
@@ -42,16 +45,16 @@ class TwitchIntegration(val locked: Locked) {
         twitchClient.eventManager.getEventHandler(SimpleEventHandler::class.java).registerListener(AppFollowEvent(locked))
         twitchClient.eventManager.getEventHandler(SimpleEventHandler::class.java).registerListener(AppRaidEvent(locked))
         twitchClient.eventManager.getEventHandler(SimpleEventHandler::class.java).registerListener(AppSubscriptionEvent(locked))
+        twitchClient.eventManager.getEventHandler(SimpleEventHandler::class.java).registerListener(AppHypeTrainEvent(locked))
         
         val eventSocket = twitchClient.getEventSocket()
-        val subscriptionConfig = SubscriptionTypes.CHANNEL_FOLLOW_V2.prepareSubscription(
-            { b ->
-                b.broadcasterUserId(userId)
-                b.moderatorUserId(userId)
-                b.build()
-            }, null)
-        eventSocket.register(subscriptionConfig)
+        
+        eventSocket.register(SubscriptionTypes.CHANNEL_FOLLOW_V2.prepareSubscription({ it.broadcasterUserId(userId).build() }, null))
+        eventSocket.register(SubscriptionTypes.HYPE_TRAIN_BEGIN.prepareSubscription({ it.broadcasterUserId(userId).build() }, null))
+        eventSocket.register(SubscriptionTypes.HYPE_TRAIN_PROGRESS.prepareSubscription({ it.broadcasterUserId(userId).build() }, null))
+        //eventSocket.register(SubscriptionTypes.POLL_END.prepareSubscription({ it.broadcasterUserId(userId).build() }, null))
         eventSocket.connect()
+        
     
         twitchClient.chat.sendMessage(channel, "Plugin minecraft LOCKED chargé !")
     }
