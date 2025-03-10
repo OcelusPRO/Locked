@@ -39,16 +39,11 @@ class TwitchIntegration(val locked: Locked) {
             twitchClient.clientHelper.enableFollowEventListener(channel)
             twitchClient.clientHelper.enableClipEventListener(channel) // quand un clip est fait faire une action sur le jeu
         }
-   
         
-        twitchClient.eventManager.getEventHandler(SimpleEventHandler::class.java).registerListener(
-                listOf(
-                    AppCheerEvent(locked),
-                    AppFollowEvent(locked),
-                    AppRaidEvent(locked),
-                    AppSubscriptionEvent(locked)
-                )
-            )
+        twitchClient.eventManager.getEventHandler(SimpleEventHandler::class.java).registerListener(AppCheerEvent(locked))
+        twitchClient.eventManager.getEventHandler(SimpleEventHandler::class.java).registerListener(AppFollowEvent(locked))
+        twitchClient.eventManager.getEventHandler(SimpleEventHandler::class.java).registerListener(AppRaidEvent(locked))
+        twitchClient.eventManager.getEventHandler(SimpleEventHandler::class.java).registerListener(AppSubscriptionEvent(locked))
         
         twitchClient.eventManager.onEvent(FollowEvent::class.java) { e ->
             println("Follow event fallback : " + e.user.name + " followed the channel " + e.channel.name)
