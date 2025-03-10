@@ -6,27 +6,31 @@ import org.bukkit.NamespacedKey
 import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.entity.EntitySpawnEvent
-import org.bukkit.metadata.FixedMetadataValue
-import org.bukkit.metadata.MetadataValue
+import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.persistence.PersistentDataType
 import kotlin.random.Random
 
 class EntitySpawn(val locked: Locked) : Listener {
     
     @EventHandler
-    fun onEntityDeath(event: EntitySpawnEvent) {
+    fun onCreatureSpawn(event: CreatureSpawnEvent) {
         
         when (event.entity.type) {
             EntityType.ZOMBIE -> onZombieSpawn(event)
+            EntityType.BAT -> preventBatSpawn(event)
             
             else -> {}
         }
         
     }
     
+    fun preventBatSpawn(event: CreatureSpawnEvent) {
+        if (locked.config.optimizations.disableBatSpawn.not()) return
+        if (event.spawnReason != CreatureSpawnEvent.SpawnReason.NATURAL) return
+        event.isCancelled = true
+    }
     
-    fun onZombieSpawn(event: EntitySpawnEvent) {
+    fun onZombieSpawn(event: CreatureSpawnEvent) {
         if (locked.config.easterEggs.entityKillEasterEgg.enableZombieEggs.not()) return
         
         if (Random.nextInt(0, 100) > locked.config.easterEggs.entityKillEasterEgg.specialZombieChances) return
