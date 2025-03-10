@@ -14,6 +14,7 @@ class AppCheerEvent(val locked: Locked) {
     fun onCheer(event: CheerEvent) {
         bitsBorderChange(event.bits, event.message)
         bitsSounds(event.bits, event.message)
+        bitsWeatherChange(event.bits)
     }
     
     private fun bitsBorderChange(bits: Int, message: String) {
@@ -26,10 +27,10 @@ class AppCheerEvent(val locked: Locked) {
     
     private fun bitsSounds(bits: Int, message: String) {
         when (bits) {
-            locked.config.twitchConfig.itemSound.eggSoundsCoast          -> if (locked.config.twitchConfig.itemSound.enableEggSounds) eggSounds(message)
-            locked.config.twitchConfig.itemSound.randomSoundCoast        -> if (locked.config.twitchConfig.itemSound.enableRandomSound) randomSounds()
-            locked.config.twitchConfig.itemSound.tntActivationSoundCoast -> if (locked.config.twitchConfig.itemSound.enableTntActivationSound) playSounds(Sound.ENTITY_TNT_PRIMED)
-            locked.config.twitchConfig.itemSound.explosionSoundCoast     -> if (locked.config.twitchConfig.itemSound.enableExplosionSound) playSounds(Sound.ENTITY_GENERIC_EXPLODE)
+            locked.config.twitchConfig.itemSound.eggSoundsCost   -> if (locked.config.twitchConfig.itemSound.enableEggSounds) eggSounds(message)
+            locked.config.twitchConfig.itemSound.randomSoundCost        -> if (locked.config.twitchConfig.itemSound.enableRandomSound) randomSounds()
+            locked.config.twitchConfig.itemSound.tntActivationSoundCost -> if (locked.config.twitchConfig.itemSound.enableTntActivationSound) playSounds(Sound.ENTITY_TNT_PRIMED)
+            locked.config.twitchConfig.itemSound.explosionSoundCost     -> if (locked.config.twitchConfig.itemSound.enableExplosionSound) playSounds(Sound.ENTITY_GENERIC_EXPLODE)
             
         }
     }
@@ -106,6 +107,38 @@ class AppCheerEvent(val locked: Locked) {
             57   -> Sound.ENTITY_ZOMBIFIED_PIGLIN_ANGRY
             27   -> Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT
             else -> Sound.ENTITY_CREEPER_PRIMED
+        }
+    }
+    
+    private fun bitsWeatherChange(bits: Int) {
+        if (locked.config.twitchConfig.weatherConfig.enableWeatherChange.not()) return
+        val duration = locked.config.twitchConfig.weatherConfig.weatherDurationInSeconds * 20
+        
+        val actionList = mutableListOf<String>()
+        
+        when (bits) {
+            in locked.config.twitchConfig.weatherConfig.rainCost -> actionList.add("rain")
+            in locked.config.twitchConfig.weatherConfig.clearCost -> actionList.add("clear")
+            in locked.config.twitchConfig.weatherConfig.thunderCost -> actionList.add("thunder")
+        }
+        
+        if (actionList.isEmpty()) return
+        
+        when (actionList.randomOrNull()) {
+            "rain" -> {
+                Bukkit.getWorld(locked.pData.currentWorldName)?.setStorm(true)
+                Bukkit.getWorld(locked.pData.currentWorldName)?.weatherDuration = duration
+            }
+            "clear" -> {
+                Bukkit.getWorld(locked.pData.currentWorldName)?.setStorm(false)
+                Bukkit.getWorld(locked.pData.currentWorldName)?.weatherDuration = duration
+                
+            }
+            "thunder" -> {
+                Bukkit.getWorld(locked.pData.currentWorldName)?.setStorm(true)
+                Bukkit.getWorld(locked.pData.currentWorldName)?.isThundering = true
+                Bukkit.getWorld(locked.pData.currentWorldName)?.weatherDuration = duration
+            }
         }
     }
     
