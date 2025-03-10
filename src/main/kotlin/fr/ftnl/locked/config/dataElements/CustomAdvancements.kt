@@ -4,5 +4,6 @@ import java.util.UUID
 
 data class CustomAdvancements(
     val oniAdvancementPlayers: MutableList<UUID> = mutableListOf(),
-    val dontStarvAdvancementPlayers: MutableList<UUID> = mutableListOf()
+    val dontStarveAdvancementPlayers: MutableList<UUID> = mutableListOf(),
+    val factorioAdvancementPlayers: MutableList<UUID> = mutableListOf(),
 )
