@@ -34,6 +34,8 @@ class Locked : JavaPlugin() {
         registerEvents()
         registerCommands()
         
+        NewWorldCommand(this).createWorld(pData.currentWorldName)
+        
         if (config.twitchConfig.enableTwitchIntegration) twitchIntegration = TwitchIntegration(this)
     }
     
