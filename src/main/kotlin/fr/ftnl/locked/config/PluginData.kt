@@ -7,10 +7,10 @@ import fr.ftnl.locked.config.dataElements.CustomAdvancements
 import java.io.File
 
 data class PluginData(
-    val borderConfig: BorderData = BorderData(),
+    var borderConfig: BorderData = BorderData(),
     var firstConnect: Boolean = false,
     var currentWorldName: String = "",
-    val customAdvancements: CustomAdvancements = CustomAdvancements()
+    var customAdvancements: CustomAdvancements = CustomAdvancements()
 ) {
     companion object {
         val gson: Gson = GsonBuilder().setPrettyPrinting().create()
@@ -35,5 +35,13 @@ data class PluginData(
     
     fun save(file: File) {
         file.writeText(gson.toJson(this))
+    }
+    
+    fun reset(config: Configuration) {
+        borderConfig = BorderData(
+            borderSize = config.borderConfig.defaultBorder,
+            minBorderSize = config.borderConfig.defaultMinBorderSize
+        )
+        customAdvancements = CustomAdvancements()
     }
 }
