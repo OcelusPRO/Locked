@@ -12,7 +12,7 @@ class PlayerJoin(val locked: Locked) : Listener {
     fun onPlayerJoinEvent(event: PlayerJoinEvent) {
         
         if (event.player.world.name != locked.pData.currentWorldName) {
-            val world = event.player.server.getWorld(locked.pData.currentWorldName)
+            val world = locked.server.getWorld(locked.pData.currentWorldName)
                 ?: return
             event.player.teleport(world.spawnLocation)
         }
