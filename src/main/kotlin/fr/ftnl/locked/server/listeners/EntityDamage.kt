@@ -14,6 +14,8 @@ class EntityDamage(val locked: Locked) : Listener {
     @EventHandler
     fun onEntityDamage(event: EntityDamageEvent) {
         oniAchievement(event)
+        dontStarveAchievement(event)
+        
     }
     
     
@@ -30,6 +32,23 @@ class EntityDamage(val locked: Locked) : Listener {
             advancementPlayers.add(player.uniqueId)
             player.sendMessage("§6Succès débloqué : §f[§cOxygen Not Included§f]")
             player.playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 15F, 1F)
+            locked.borderSizeManager.increaseBorder(locked.config.borderConfig.advancementSizeAddition, locked.pData.currentWorldName)
+        }
+    }
+    
+    fun dontStarveAchievement(event: EntityDamageEvent) {
+        if (locked.config.easterEggs.customAdvancement.enableDontStarvAdvancement.not()) return
+        if (event.entity !is Player)return
+        val player = event.entity as Player
+        val causes = listOf(
+            EntityDamageEvent.DamageCause.STARVATION
+        )
+        val advancementPlayers = locked.pData.customAdvancements.dontStarvAdvancementPlayers
+        if (event.cause in causes && advancementPlayers.contains(player.uniqueId).not()) {
+            advancementPlayers.add(player.uniqueId)
+            player.sendMessage("§6Succès débloqué : §f[§Don't Starve§f]")
+            player.playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 15F, 1F)
+            locked.borderSizeManager.increaseBorder(locked.config.borderConfig.advancementSizeAddition, locked.pData.currentWorldName)
         }
     }
     
