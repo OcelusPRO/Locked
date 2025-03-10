@@ -11,13 +11,8 @@ import org.bukkit.event.inventory.CraftItemEvent
 
 class CraftItem(val locked: Locked) : Listener {
     
-    
     @EventHandler
     fun onCraftItem(event: CraftItemEvent) {
         locked.advancementManager.factorioAchievement(event)
-        
     }
-    
-
-    
 }

@@ -28,37 +28,3 @@ class BorderSizeManager(val main: Locked) {
     }
     
 }
-
-
-/*
-
-
-        Bukkit.getScheduler().runTask(main, Runnable {
-            if (newBorderSize > main.config.borderConfig.minBorderSize) {
-                val r = main.config.borderConfig.currentBorder % saveBorderStep
-                val currentStep = main.config.borderConfig.currentBorder - r
-                if (main.config.borderConfig.minBorderSize != currentStep){
-                    main.config.borderConfig.minBorderSize = currentStep
-                    main.server.dispatchCommand(Bukkit.getConsoleSender(), "say ${main.config.strings.newStep}")
-                    main.server.dispatchCommand(Bukkit.getConsoleSender(), String.format("say ${main.config.strings.newStepDesc}", main.config.borderConfig.minBorderSize))
-                    val title = Title.title(
-                        Component.text(main.config.strings.newStep)
-                            .style(
-                                Style.style(TextColor.color(255, 255, 0)) // Jaune.decoration(TextDecoration.BOLD, true)
-                            ),
-                        Component.text(String.format(main.config.strings.newStepDesc, main.config.borderConfig.minBorderSize)),
-                        Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(3), Duration.ofSeconds(1))
-                    )
-                    
-                    main.server.onlinePlayers.filter { it.gameMode == GameMode.SURVIVAL }.forEach {
-                        it.showTitle(title)
-                        it.playSound(it.location, Sound.ENTITY_PLAYER_LEVELUP, 5f, 1f)
-                        
-                    }
-                }
-            }
-            main.server.dispatchCommand(Bukkit.getConsoleSender(), "worldborder set $newBorderSize")
-        })
-
-
-* */
