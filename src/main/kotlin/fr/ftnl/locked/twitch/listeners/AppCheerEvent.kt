@@ -22,7 +22,7 @@ class AppCheerEvent(val locked: Locked) {
         if (bitsPart < 1) return
         var changeBorder = bitsPart * locked.config.twitchConfig.bitsBorderConfig.bitsBorderChanger
         if (locked.config.twitchConfig.bitsBorderConfig.minusTriggersWords.any { message.contains(it, true) }) changeBorder = changeBorder * -1
-        locked.borderSizeManager.increaseBorder(changeBorder, locked.pData.currentWorldName)
+        locked.borderSizeManager.increaseBorder(changeBorder, locked.pData.currentWorldName, "twitch cheers")
     }
     
     private fun bitsSounds(bits: Int, message: String) {

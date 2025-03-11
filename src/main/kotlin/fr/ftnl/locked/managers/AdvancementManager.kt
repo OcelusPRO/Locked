@@ -1,12 +1,10 @@
 package fr.ftnl.locked.managers
 
 import fr.ftnl.locked.Locked
-import fr.ftnl.locked.twitch.listeners.AppFollowEvent
 import org.bukkit.Sound
 import org.bukkit.advancement.Advancement
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDamageEvent
-import org.bukkit.event.inventory.CraftItemEvent
 
 class AdvancementManager(val locked: Locked) {
     
@@ -44,7 +42,7 @@ class AdvancementManager(val locked: Locked) {
             advancementPlayers.add(player.uniqueId)
             player.sendMessage("§6Succès débloqué : §f[§cOxygen Not Included§f]")
             player.playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 15F, 1F)
-            locked.borderSizeManager.increaseBorder(locked.config.borderConfig.advancementSizeAddition, locked.pData.currentWorldName)
+            locked.borderSizeManager.increaseBorder(locked.config.easterEggs.customAdvancement.customAdvancementBorderChange, locked.pData.currentWorldName, "CustomAdvancement")
         }
     }
     
@@ -60,19 +58,7 @@ class AdvancementManager(val locked: Locked) {
             advancementPlayers.add(player.uniqueId)
             player.sendMessage("§6Succès débloqué : §f[§Don't Starve§f]")
             player.playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 15F, 1F)
-            locked.borderSizeManager.increaseBorder(locked.config.borderConfig.advancementSizeAddition, locked.pData.currentWorldName)
-        }
-    }
-    
-    fun factorioAchievement(event: CraftItemEvent ) {
-        if (locked.config.easterEggs.customAdvancement.enableFactorioAdvancement.not()) return
-        val advancementPlayers = locked.pData.customAdvancements.factorioAdvancementPlayers
-        val player = event.whoClicked as? Player ?: return
-        if (advancementPlayers.contains(player.uniqueId).not()) {
-            advancementPlayers.add(player.uniqueId)
-            player.sendMessage("§6Succès débloqué : §f[§Factory must grows !§f]")
-            player.playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 15F, 1F)
-            locked.borderSizeManager.increaseBorder(locked.config.borderConfig.advancementSizeAddition, locked.pData.currentWorldName)
+            locked.borderSizeManager.increaseBorder(locked.config.easterEggs.customAdvancement.customAdvancementBorderChange, locked.pData.currentWorldName, "CustomAdvancement")
         }
     }
 }

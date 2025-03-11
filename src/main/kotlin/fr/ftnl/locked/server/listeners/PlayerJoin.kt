@@ -20,7 +20,7 @@ class PlayerJoin(val locked: Locked) : Listener {
         if (locked.pData.firstConnect.not()) {
             locked.pData.firstConnect = true
             locked.borderSizeManager.setBorderLocation(event.player.location, event.player.world.name)
-            locked.borderSizeManager.increaseBorder(0.0, event.player.world.name)
+            locked.borderSizeManager.increaseBorder(0.0, event.player.world.name, "first join set border")
         }
         
         locked.scoreboardManager.updateScoreboard()

@@ -15,7 +15,7 @@ class ChangeBorder(val main: Locked) : CommandExecutor {
         
         val size = args[0].toDoubleOrNull() ?: return false.also { sender.sendMessage("§4Usage: /changeborder <size>") }
         
-        main.borderSizeManager.increaseBorder(size, main.pData.currentWorldName)
+        main.borderSizeManager.increaseBorder(size, main.pData.currentWorldName, "user command")
         return true
     }
 }

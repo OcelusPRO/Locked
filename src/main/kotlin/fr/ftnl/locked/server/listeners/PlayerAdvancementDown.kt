@@ -14,7 +14,7 @@ class PlayerAdvancementDown(val locked: Locked) : Listener {
         val newMinSize = locked.config.borderConfig.defaultMinBorderSize + locked.advancementManager.findAllPlayerAdvancements(event.player).size
         locked.pData.borderConfig.minBorderSize = newMinSize
         locked.scoreboardManager.updateScoreboard()
-        locked.borderSizeManager.increaseBorder(locked.config.borderConfig.advancementSizeAddition, event.player.world.name)
+        locked.borderSizeManager.increaseBorder(locked.config.borderConfig.advancementSizeAddition, event.player.world.name, "advancement")
     }
     
 }

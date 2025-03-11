@@ -19,7 +19,7 @@ class AppSubscriptionEvent(val locked: Locked) {
     
     private fun subHandler(name: String) {
         locked.borderSizeManager.increaseBorder(
-            locked.config.twitchConfig.subBorderConfig.subBorderChanger, locked.pData.currentWorldName
+            locked.config.twitchConfig.subBorderConfig.subBorderChanger, locked.pData.currentWorldName, "twitch subscription"
         )
         if (locked.config.twitchConfig.cakes.giftNamesForCake.any { name.contains(it, true) }) cakeGenerator()
         if (locked.config.twitchConfig.poops.poopNames.any { name.contains(it, true) }) poopGenerator(name)

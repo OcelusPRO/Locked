@@ -16,7 +16,7 @@ class AppFollowEvent(val locked: Locked) {
         if (event.userId in followList) return
         followList.add(event.userId)
         locked.borderSizeManager.increaseBorder(
-            locked.config.twitchConfig.followBorderConfig.followBorderChanger, locked.pData.currentWorldName
+            locked.config.twitchConfig.followBorderConfig.followBorderChanger, locked.pData.currentWorldName, "twitch follow"
         )
     }
     

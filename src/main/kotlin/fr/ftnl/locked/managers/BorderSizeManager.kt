@@ -18,7 +18,12 @@ class BorderSizeManager(val main: Locked) {
         main.scoreboardManager.updateScoreboard()
     }
     
-    fun increaseBorder(size: Double, world: String) {
+    fun increaseBorder(size: Double, world: String, reason: String) {
+        if (main.config.borderConfig.logChangeInTchat)
+            main.commandSender.executeCommandInWorld(
+                world,
+                "tellraw @a {\"text\":\"§6Border size changed by $reason to ${"%.1f".format((main.pData.borderConfig.borderSize + size))} blocks.\",\"color\":\"gold\"}"
+            )
         main.pData.borderConfig.borderSize += size
         setBorder(main.pData.borderConfig.borderSize, world)
     }
