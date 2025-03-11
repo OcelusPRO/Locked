@@ -27,9 +27,11 @@ class NewWorldCommand(val main: Locked) : CommandExecutor {
         
         main.borderSizeManager.setBorderLocation(l, newWorld.name)
         main.borderSizeManager.resetBorder(newWorld.name)
+        newWorld.difficulty = main.server.worlds.first().difficulty
         
         main.commandSender.executeCommandInWorld(newWorld.name, "spawnpoint @a ${l.x.roundToInt()} ${l.y.roundToInt()} ${l.z.roundToInt()}")
         main.commandSender.executeCommand("advancement revoke @a everything")
+        main.commandSender.executeCommandInWorld(newWorld.name, "effect clear @a")
         main.commandSender.executeCommandInWorld(newWorld.name, "clear @a")
         main.commandSender.executeCommandInWorld(newWorld.name, "experience set @a 0 points")
         main.commandSender.executeCommandInWorld(newWorld.name, "experience set @a 0 levels")
