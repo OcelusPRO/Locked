@@ -49,7 +49,7 @@ class TwitchIntegration(val locked: Locked) {
         
         val eventSocket = twitchClient.getEventSocket()
         
-        eventSocket.register(SubscriptionTypes.CHANNEL_FOLLOW_V2.prepareSubscription({ it.broadcasterUserId(userId).build() }, null))
+        eventSocket.register(SubscriptionTypes.CHANNEL_FOLLOW_V2.prepareSubscription({ it.broadcasterUserId(userId).moderatorUserId(userId).build() }, null))
         eventSocket.register(SubscriptionTypes.HYPE_TRAIN_BEGIN.prepareSubscription({ it.broadcasterUserId(userId).build() }, null))
         eventSocket.register(SubscriptionTypes.HYPE_TRAIN_PROGRESS.prepareSubscription({ it.broadcasterUserId(userId).build() }, null))
         //eventSocket.register(SubscriptionTypes.POLL_END.prepareSubscription({ it.broadcasterUserId(userId).build() }, null))
