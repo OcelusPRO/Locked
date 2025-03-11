@@ -124,22 +124,26 @@ class AppCheerEvent(val locked: Locked) {
         
         if (actionList.isEmpty()) return
         
-        when (actionList.randomOrNull()) {
-            "rain" -> {
-                Bukkit.getWorld(locked.pData.currentWorldName)?.setStorm(true)
-                Bukkit.getWorld(locked.pData.currentWorldName)?.weatherDuration = duration
+        locked.server.scheduler.runTask(locked, Runnable {
+            when (actionList.randomOrNull()) {
+                "rain" -> {
+                    Bukkit.getWorld(locked.pData.currentWorldName)?.setStorm(true)
+                    Bukkit.getWorld(locked.pData.currentWorldName)?.isThundering = false
+                    Bukkit.getWorld(locked.pData.currentWorldName)?.weatherDuration = duration
+                }
+                "clear" -> {
+                    Bukkit.getWorld(locked.pData.currentWorldName)?.setStorm(false)
+                    Bukkit.getWorld(locked.pData.currentWorldName)?.isThundering = false
+                    Bukkit.getWorld(locked.pData.currentWorldName)?.weatherDuration = duration
+                    
+                }
+                "thunder" -> {
+                    Bukkit.getWorld(locked.pData.currentWorldName)?.setStorm(true)
+                    Bukkit.getWorld(locked.pData.currentWorldName)?.isThundering = true
+                    Bukkit.getWorld(locked.pData.currentWorldName)?.weatherDuration = duration
+                }
             }
-            "clear" -> {
-                Bukkit.getWorld(locked.pData.currentWorldName)?.setStorm(false)
-                Bukkit.getWorld(locked.pData.currentWorldName)?.weatherDuration = duration
-                
-            }
-            "thunder" -> {
-                Bukkit.getWorld(locked.pData.currentWorldName)?.setStorm(true)
-                Bukkit.getWorld(locked.pData.currentWorldName)?.isThundering = true
-                Bukkit.getWorld(locked.pData.currentWorldName)?.weatherDuration = duration
-            }
-        }
+        })
     }
     
 }
