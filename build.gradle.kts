@@ -40,15 +40,49 @@ tasks.test {
     useJUnitPlatform()
 }
 kotlin {
-    jvmToolchain(18)
+    jvmToolchain(21)
 }
 
 
-tasks.build {
-    dependsOn(tasks.shadowJar)
+
+
+// Gestion du numéro de build
+val buildNumberFile = file("build.number")
+val buildNumber: Int by extra {
+    if (buildNumberFile.exists()) buildNumberFile.readText().toInt() else 1
 }
+
+tasks.register("incrementBuildNumber") {
+    doLast {
+        val newNumber = buildNumber + 1
+        buildNumberFile.writeText(newNumber.toString())
+        println("Build number incrémenté à : $newNumber")
+    }
+}
+
+val versionedDir = layout.buildDirectory.dir("libs/versioned") // Définir le sous-dossier
+
+tasks.register("copyWithoutBuildNumber") {
+    doLast {
+        copy {
+            from(tasks.shadowJar.get().archiveFile)
+            into(layout.buildDirectory.dir("libs"))
+            rename {fileName ->
+                fileName.replace("-${buildNumber}", "")
+            }
+        }
+        copy {
+            from(tasks.shadowJar.get().archiveFile)
+            into(layout.buildDirectory.dir("libs"))
+            rename {fileName -> fileName.replace("${project.version}-${buildNumber}", "")}
+        }
+    }
+}
+
 
 tasks.shadowJar {
+    dependsOn("incrementBuildNumber")
+    
     manifest {
         attributes["paperweight-mappings-namespace"] = "mojang"
     }
@@ -57,11 +91,19 @@ tasks.shadowJar {
     
     archiveBaseName.set("Locked") // Nom de votre JAR
     archiveClassifier.set("") // Supprime le suffixe "-all"
-    archiveVersion.set(version.toString())
+    archiveVersion.set("${project.version}-${buildNumber}")
+    destinationDirectory.set(file(versionedDir))
     
     mergeServiceFiles()
     exclude("META-INF/*.SF")
     exclude("META-INF/*.DSA")
     exclude("META-INF/*.RSA")
+    
+    finalizedBy("copyWithoutBuildNumber")
 }
 
+
+
+tasks.build {
+    dependsOn(tasks.shadowJar)
+}
