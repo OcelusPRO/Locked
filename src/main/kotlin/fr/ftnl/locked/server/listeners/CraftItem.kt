@@ -1,6 +1,7 @@
 package fr.ftnl.locked.server.listeners
 
 import fr.ftnl.locked.Locked
+import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -13,6 +14,5 @@ class CraftItem(val locked: Locked) : Listener {
     
     @EventHandler
     fun onCraftItem(event: CraftItemEvent) {
-        locked.advancementManager.factorioAchievement(event)
     }
 }
